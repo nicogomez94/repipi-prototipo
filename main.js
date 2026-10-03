@@ -21,8 +21,26 @@ function setupMenu(){
   menu.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{menu.hidden=true;button.setAttribute('aria-expanded','false');button.querySelector('i').className='fa-solid fa-bars'}));
 }
 function setupHome(){
-  const featured=[9452,9405,9102,290].map(id=>PRODUCTS.find(p=>p.id===id)).filter(Boolean);
-  document.getElementById('featured-products').innerHTML=featured.map(p=>card(p,true)).join('');
+  const groups={favoritos:[9452,9405,9102,290],recien:[290,1163,82,1159],abrigo:[9405,910,797,960]};
+  const grid=document.getElementById('featured-products');
+  const tabs=document.querySelectorAll('.collection-tabs button');
+  function showGroup(group){
+    grid.innerHTML=(groups[group]||groups.favoritos).map(id=>PRODUCTS.find(p=>p.id===id)).filter(Boolean).map(p=>card(p,true)).join('');
+    tabs.forEach(button=>{const active=button.dataset.feature===group;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))});
+    observeReveals(grid);
+  }
+  tabs.forEach(button=>button.addEventListener('click',()=>showGroup(button.dataset.feature)));
+  showGroup('favoritos');
+  const slides=[
+    {eyebrow:'NUEVA FORMA DE JUGAR',title:'Pequeñas<br>prendas, <em>grandes<br>aventuras.</em>',highlight:'<strong>Comodidad + color</strong> para cada día.',desc:'Ropa suave, alegre y lista para acompañar cada descubrimiento. Desde prematuros hasta los 3 años.',image:'assets/children/hero-duo.png',alt:'Dos peques con ropa colorida disfrutando de la música',href:'productos.html'},
+    {eyebrow:'DESDE EL PRIMER DÍA',title:'Un mundo<br>suave para <em>crecer<br>jugando.</em>',highlight:'<strong>Mucho amor</strong> en cada prenda.',desc:'Ajuar, enteritos y básicos cómodos para sus primeros grandes momentos.',image:'assets/children/category-recien-nacido.png',alt:'Bebé sonriente con enterito celeste',href:'productos.html?categoria=Recién%20nacido'},
+    {eyebrow:'COLOR SIN REGLAS',title:'Más color,<br>más risas, <em>más<br>Repipi.</em>',highlight:'<strong>Libres de jugar</strong> todo el día.',desc:'Prendas con personalidad para explorar, moverse y ser quien quieran.',image:'assets/children/category-abrigo.png',alt:'Peque sonriente con abrigo a cuadros',href:'productos.html?categoria=Abrigo'}
+  ];
+  let active=0;const dots=[...document.querySelectorAll('.hero-dots button')];
+  function showSlide(index){active=(index+slides.length)%slides.length;const slide=slides[active];document.getElementById('hero-eyebrow').textContent=slide.eyebrow;document.getElementById('hero-title').innerHTML=slide.title;document.querySelector('.hero-highlight').innerHTML=slide.highlight;document.getElementById('hero-desc').textContent=slide.desc;const image=document.getElementById('hero-image');image.src=slide.image;image.alt=slide.alt;document.getElementById('hero-cta').href=slide.href;dots.forEach((dot,i)=>{dot.classList.toggle('active',i===active);dot.setAttribute('aria-pressed',String(i===active))})}
+  document.querySelector('.hero-prev').addEventListener('click',()=>showSlide(active-1));
+  document.querySelector('.hero-next').addEventListener('click',()=>showSlide(active+1));
+  dots.forEach((dot,i)=>dot.addEventListener('click',()=>showSlide(i)));
 }
 function setupCatalog(){
   const categories=['Todos','Bebés','Recién nacido','Abrigo','Accesorios','Línea prematuros','Colegial'];
