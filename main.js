@@ -36,11 +36,45 @@ function setupHome(){
     {eyebrow:'DESDE EL PRIMER DÍA',title:'Un mundo<br>suave para <em>crecer<br>jugando.</em>',highlight:'<strong>Mucho amor</strong> en cada prenda.',desc:'Ajuar, enteritos y básicos cómodos para sus primeros grandes momentos.',image:'assets/children/category-recien-nacido.png',alt:'Bebé sonriente con enterito celeste',href:'productos.html?categoria=Recién%20nacido'},
     {eyebrow:'COLOR SIN REGLAS',title:'Más color,<br>más risas, <em>más<br>Repipi.</em>',highlight:'<strong>Libres de jugar</strong> todo el día.',desc:'Prendas con personalidad para explorar, moverse y ser quien quieran.',image:'assets/children/category-abrigo.png',alt:'Peque sonriente con abrigo a cuadros',href:'productos.html?categoria=Abrigo'}
   ];
-  let active=0;const dots=[...document.querySelectorAll('.hero-dots button')];
-  function showSlide(index){active=(index+slides.length)%slides.length;const slide=slides[active];document.getElementById('hero-eyebrow').textContent=slide.eyebrow;document.getElementById('hero-title').innerHTML=slide.title;document.querySelector('.hero-highlight').innerHTML=slide.highlight;document.getElementById('hero-desc').textContent=slide.desc;const image=document.getElementById('hero-image');image.src=slide.image;image.alt=slide.alt;document.getElementById('hero-cta').href=slide.href;dots.forEach((dot,i)=>{dot.classList.toggle('active',i===active);dot.setAttribute('aria-pressed',String(i===active))})}
-  document.querySelector('.hero-prev').addEventListener('click',()=>showSlide(active-1));
-  document.querySelector('.hero-next').addEventListener('click',()=>showSlide(active+1));
-  dots.forEach((dot,i)=>dot.addEventListener('click',()=>showSlide(i)));
+  const hero=document.querySelector('.hero');
+  const copy=hero.querySelector('.hero-copy');
+  const art=hero.querySelector('.hero-art');
+  const dots=[...hero.querySelectorAll('.hero-dots button')];
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  slides.forEach(slide=>{const preload=new Image();preload.src=slide.image});
+  let active=0,transitioning=false,lastInteraction=Date.now();
+  function applySlide(index){
+    active=index;
+    const slide=slides[active];
+    document.getElementById('hero-eyebrow').textContent=slide.eyebrow;
+    document.getElementById('hero-title').innerHTML=slide.title;
+    document.querySelector('.hero-highlight').innerHTML=slide.highlight;
+    document.getElementById('hero-desc').textContent=slide.desc;
+    const image=document.getElementById('hero-image');image.src=slide.image;image.alt=slide.alt;
+    document.getElementById('hero-cta').href=slide.href;
+    dots.forEach((dot,i)=>{const selected=i===active;dot.classList.toggle('active',selected);dot.setAttribute('aria-pressed',String(selected))});
+  }
+  function showSlide(index,manual=false){
+    const next=(index+slides.length)%slides.length;
+    if(manual)lastInteraction=Date.now();
+    if(next===active||transitioning)return;
+    if(reducedMotion.matches){applySlide(next);return}
+    transitioning=true;
+    hero.dataset.slideDirection=index<active?'prev':'next';
+    copy.classList.add('slide-out');art.classList.add('slide-out');
+    window.setTimeout(()=>{
+      applySlide(next);
+      copy.classList.remove('slide-out');art.classList.remove('slide-out');
+      copy.classList.add('slide-in');art.classList.add('slide-in');
+      window.setTimeout(()=>{copy.classList.remove('slide-in');art.classList.remove('slide-in');transitioning=false},650);
+    },260);
+  }
+  hero.querySelector('.hero-prev').addEventListener('click',()=>showSlide(active-1,true));
+  hero.querySelector('.hero-next').addEventListener('click',()=>showSlide(active+1,true));
+  dots.forEach((dot,i)=>dot.addEventListener('click',()=>showSlide(i,true)));
+  window.setInterval(()=>{
+    if(!document.hidden&&!hero.matches(':hover')&&!hero.contains(document.activeElement)&&Date.now()-lastInteraction>6500)showSlide(active+1);
+  },8500);
 }
 function setupCatalog(){
   const categories=['Todos','Bebés','Recién nacido','Abrigo','Accesorios','Línea prematuros','Colegial'];

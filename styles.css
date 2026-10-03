@@ -222,3 +222,74 @@ h1,h2,h3,p{margin-top:0}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fade-in{opacity:1;transform:none;transition:none}.btn,.category-card,.product-card,.floating-wa{transition:none}}
 @media(max-width:480px){.catalog-decoration{display:none}}
 @media(max-width:480px){.hero-arrow{bottom:74px}}
+/* Movimiento: dibujos, cambios de slide y entradas al recorrer la página. */
+.doodle,.hero-spark{will-change:transform}
+.doodle-sun{transform-origin:50% 50%;animation:sun-dance 18s linear infinite}
+.doodle-heart{transform-origin:50% 70%;animation:heart-dance 3.2s ease-in-out infinite}
+.doodle-star{transform-origin:50% 50%;animation:star-dance 4.3s ease-in-out infinite}
+.doodle-swirl{transform-origin:50% 50%;animation:swirl-dance 12s ease-in-out infinite}
+.doodle-cloud-left{animation:cloud-drift 6s ease-in-out infinite alternate}
+.doodle-cloud-right{animation:cloud-drift 7s ease-in-out -2s infinite alternate-reverse}
+.spark-one{animation:spark-pop 3.5s ease-in-out infinite}
+.spark-two{animation:spark-pop 3.5s ease-in-out -1.5s infinite}
+.hero-dots button{transition:background .25s,transform .4s cubic-bezier(.2,1.7,.3,1)}
+.hero-arrow{transition:transform .2s,background .2s,color .2s}
+.hero-arrow:hover{transform:scale(1.16)}
+.hero-copy.fade-in.visible.slide-out{opacity:0;transform:translateX(-32px) rotate(-2deg);transition:opacity .26s ease-in,transform .26s ease-in}
+.hero-art.fade-in.visible.slide-out{opacity:0;transform:translateX(36px) scale(.92) rotate(3deg);transition:opacity .26s ease-in,transform .26s ease-in}
+.hero[data-slide-direction="prev"] .hero-copy.fade-in.visible.slide-out{transform:translateX(32px) rotate(2deg)}
+.hero[data-slide-direction="prev"] .hero-art.fade-in.visible.slide-out{transform:translateX(-36px) scale(.92) rotate(-3deg)}
+.hero-copy.slide-in{animation:slide-copy-in .62s cubic-bezier(.17,.9,.25,1) both}
+.hero-art.slide-in{animation:slide-art-in .62s cubic-bezier(.17,.9,.25,1) both}
+.hero[data-slide-direction="prev"] .hero-copy.slide-in{animation-name:slide-copy-in-prev}
+.hero[data-slide-direction="prev"] .hero-art.slide-in{animation-name:slide-art-in-prev}
+.fade-in{--from-x:0px;--from-y:36px;--from-rotate:0deg;--from-scale:1;--stagger:0ms;opacity:0;transform:translate3d(var(--from-x),var(--from-y),0) rotate(var(--from-rotate)) scale(var(--from-scale));transition:opacity .72s ease,transform .9s cubic-bezier(.18,1.25,.25,1);transition-delay:var(--stagger)}
+.fade-in.visible{opacity:1;transform:translate3d(0,0,0) rotate(0deg) scale(1)}
+.hero-copy.fade-in{--from-x:-55px;--from-y:0px;--from-rotate:-2deg}
+.hero-art.fade-in{--from-x:65px;--from-y:5px;--from-scale:.88;--stagger:120ms}
+.category-card:nth-child(3n + 1).fade-in{--from-x:-55px;--from-y:45px;--from-rotate:-7deg;--from-scale:.9}
+.category-card:nth-child(3n + 2).fade-in{--from-y:75px;--from-rotate:4deg;--from-scale:.87;--stagger:100ms}
+.category-card:nth-child(3n).fade-in{--from-x:55px;--from-y:45px;--from-rotate:7deg;--from-scale:.9;--stagger:200ms}
+.category-card.fade-in.visible:hover{transform:translateY(-7px) rotate(-1deg)}
+.category-card img{transition:transform .5s cubic-bezier(.2,1.4,.3,1)}
+.category-card:hover img{transform:translateY(-9px) rotate(-3deg) scale(1.06)}
+.section-heading.fade-in,.catalog-top.fade-in{--from-y:50px;--from-scale:.88;--from-rotate:-2deg}
+.collection-tabs.fade-in{--from-y:35px;--from-scale:.88;--stagger:130ms}
+.product-card:nth-child(4n + 1).fade-in{--from-x:-22px;--from-y:65px;--from-rotate:-5deg;--from-scale:.86}
+.product-card:nth-child(4n + 2).fade-in{--from-y:85px;--from-rotate:4deg;--from-scale:.88;--stagger:80ms}
+.product-card:nth-child(4n + 3).fade-in{--from-y:75px;--from-rotate:-3deg;--from-scale:.87;--stagger:160ms}
+.product-card:nth-child(4n).fade-in{--from-x:22px;--from-y:65px;--from-rotate:5deg;--from-scale:.86;--stagger:240ms}
+.product-card.fade-in.visible:hover{transform:translateY(-7px) rotate(-1deg)}
+.product-card img{transition:transform .5s cubic-bezier(.2,1.4,.3,1)}
+.product-card:hover img{transform:scale(1.07) rotate(2deg)}
+.center-cta.fade-in{--from-y:45px;--from-scale:.85}
+.manifesto-art.fade-in,.detail-gallery.fade-in{--from-x:-90px;--from-y:0px;--from-rotate:-7deg;--from-scale:.86}
+.manifesto-copy.fade-in,.detail-copy.fade-in{--from-x:75px;--from-y:0px;--from-rotate:3deg;--from-scale:.95;--stagger:120ms}
+.manifesto-art.visible .manifesto-flower{animation:flower-wiggle 6s ease-in-out infinite}
+.benefit:nth-child(1).fade-in{--from-x:-65px;--from-rotate:-8deg}
+.benefit:nth-child(2).fade-in{--from-y:60px;--from-scale:.7;--from-rotate:8deg;--stagger:110ms}
+.benefit:nth-child(3).fade-in{--from-x:65px;--from-rotate:8deg;--stagger:220ms}
+.last-cta .wrap.fade-in,.catalog-end .wrap.fade-in,.product-cta .wrap.fade-in{--from-y:65px;--from-scale:.78;--from-rotate:-3deg}
+.last-cta .wrap.visible .btn{animation:cta-bounce .7s .35s both}
+.last-cta .cta-doodle{animation:spark-pop 5s ease-in-out infinite}
+.last-cta .cta-flower{animation:flower-wiggle 7s ease-in-out infinite}
+.catalog-hero .wrap.fade-in{--from-x:-60px;--from-y:0px;--from-rotate:-2deg}
+.catalog-tools.fade-in{--from-y:45px;--from-scale:.95}
+@keyframes sun-dance{to{transform:rotate(360deg)}}
+@keyframes heart-dance{0%,100%{transform:translateY(0) rotate(-11deg) scale(1)}50%{transform:translateY(-8px) rotate(7deg) scale(1.13)}}
+@keyframes star-dance{0%,100%{transform:rotate(8deg) scale(.9);opacity:.55}50%{transform:rotate(22deg) scale(1.25);opacity:1}}
+@keyframes swirl-dance{0%,100%{transform:rotate(-10deg) scale(.92)}50%{transform:rotate(30deg) scale(1.08)}}
+@keyframes cloud-drift{from{transform:translateX(-8px) translateY(0) rotate(-4deg)}to{transform:translateX(9px) translateY(-6px) rotate(5deg)}}
+@keyframes spark-pop{0%,100%{transform:rotate(-18deg) scale(.85);opacity:.65}50%{transform:rotate(15deg) scale(1.24);opacity:1}}
+@keyframes flower-wiggle{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(20deg) scale(1.12)}}
+@keyframes slide-copy-in{from{opacity:0;transform:translateX(42px) rotate(2deg)}to{opacity:1;transform:translateX(0) rotate(0)}}
+@keyframes slide-art-in{from{opacity:0;transform:translateX(-48px) scale(.89) rotate(-3deg)}to{opacity:1;transform:translateX(0) scale(1) rotate(0)}}
+@keyframes slide-copy-in-prev{from{opacity:0;transform:translateX(-42px) rotate(-2deg)}to{opacity:1;transform:translateX(0) rotate(0)}}
+@keyframes slide-art-in-prev{from{opacity:0;transform:translateX(48px) scale(.89) rotate(3deg)}to{opacity:1;transform:translateX(0) scale(1) rotate(0)}}
+@keyframes cta-bounce{0%{transform:translateY(22px) scale(.7);opacity:0}65%{transform:translateY(-6px) scale(1.07);opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  .doodle,.hero-spark,.manifesto-flower,.last-cta .cta-doodle,.last-cta .cta-flower,.last-cta .wrap.visible .btn,.hero-copy.slide-in,.hero-art.slide-in{animation:none!important}
+  .fade-in,.fade-in.visible,.hero-copy.fade-in.visible.slide-out,.hero-art.fade-in.visible.slide-out{opacity:1;transform:none;transition:none}
+  .product-card img,.category-card img,.hero-arrow,.hero-dots button{transition:none}
+}
+main>section{overflow-x:clip}
